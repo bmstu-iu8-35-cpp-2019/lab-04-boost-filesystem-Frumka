@@ -19,8 +19,7 @@ HunterGate(
 )
 
 
-# TODO: rename project and delete this comment
-project(template)
+project(lab-04-boost-fs-Frumka)
 string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
@@ -28,25 +27,25 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
 
-# TODO: change template word to project name and delete this comment
-add_library(template STATIC
-  # enum your files and delete this comment
-  ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+hunter_add_package(Boost COMPONENTS system filesystem)
+find_package(Boost CONFIG REQUIRED system filesystem)
+
+add_library(lab-04-boost-fs-Frumka STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ftp_file.cpp
 )
 add_executable(tests
-  # TODO: enum your files and delete this comment
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
 )
 
-# TODO: change template word to project name and delete this comment
-target_include_directories(template 
+target_include_directories(lab-04-boost-fs-Frumka
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_include_directories(tests 
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-# TODO: change template word to project name and delete this comment
-target_link_libraries(tests GTest::main template)
+
+target_link_libraries(tests GTest::main lab-04-boost-fs-Frumka)
+target_link_libraries(lab-04-boost-fs-Frumka Boost::system Boost::filesystem)
 
 enable_testing()
 add_test(NAME unit_tests COMMAND tests) 
@@ -55,8 +54,7 @@ if(BUILD_COVERAGE)
   set(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build." FORCE)
   list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   find_package(codecov)
-  # TODO: change template word to project name and delete this comment
-  add_coverage(template)
+  add_coverage(lab-04-boost-fs-Frumka)
   add_coverage(tests)
   list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
   coverage_evaluate()
